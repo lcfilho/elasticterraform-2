@@ -1,0 +1,51 @@
+- hosts: elastictcc-01
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_heap_size: "3g"
+    es_config:
+      cluster.name: "luis.filho"
+      cluster.initial_master_nodes: "elastictcc-01,elastictcc-02,elastictcc-03"
+      discovery.seed_hosts: "elastictcc-01,elastictcc-02,elastictcc-03"
+      http.port: 9200
+      bootstrap.memory_lock: false
+      network.host: _site_
+    es_api_host: "10.150.0.20"
+
+
+- hosts: elastictcc-02
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_heap_size: "3g"
+    es_config:
+      cluster.name: "luis.filho"
+      cluster.initial_master_nodes: "elastictcc-01,elastictcc-02,elastictcc-03"
+      discovery.seed_hosts: "elastictcc-01,elastictcc-02,elastictcc-03"
+      http.port: 9200
+      bootstrap.memory_lock: false
+      network.host: _site_
+    es_api_host: "10.150.0.21"
+
+- hosts: elastictcc-03
+  roles:
+    - role: elastic.elasticsearch
+  vars:
+    es_heap_size: "3g"
+    es_config:
+      cluster.name: "luis.filho"
+      cluster.initial_master_nodes: "elastictcc-01,elastictcc-02,elastictcc-03"
+      discovery.seed_hosts: "elastictcc-01,elastictcc-02,elastictcc-03"
+      http.port: 9200
+      bootstrap.memory_lock: false
+      network.host: _site_
+      command: ["/bin/bash", "-c", "exec /sbin/init --log-target=journal 3>&1", "--privileged"]
+    privileged: true
+    es_api_host: "10.150.0.22"
+
+- hosts: elastictcc-01
+  roles:
+    - role: geerlingguy.kibana
+  vars:
+    - kibana_elasticsearch_url: "['http://elastictcc-01:9200', 'http://elastictcc-02:9200', 'http://elastictcc-03:9200']"
+    - kibana_version: "7.x"
