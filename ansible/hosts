@@ -1,9 +1,9 @@
 [cluster]
-elastictcc-01 ansible_host=10.150.0.20
-elastictcc-02 ansible_host=10.150.0.21
-elastictcc-03 ansible_host=10.150.0.22
+elastic01 ansible_host=10.150.0.20
+elastic02 ansible_host=10.150.0.21
+elastic03 ansible_host=10.150.0.22
 
 [all:vars]
-ansible_user=luis.filho
-ansible_ssh_private_key_file=/tmp/luis.filho
+ansible_user=luisfilho
+ansible_ssh_private_key_file=/tmp/luisfilho
 ansible_become=yes
